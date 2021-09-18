@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "styled-components";
+import { Button } from "@material-ui/core";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function App() {
+const App = () => {
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      {!isAuthenticated ? (
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => loginWithRedirect()}>
+          Login
+        </Button>
+      ) : (
+        <Button variant="contained" color="secondary" onClick={() => logout()}>
+          Logout
+        </Button>
+      )}
+    </Container>
   );
-}
+};
 
 export default App;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+  button {
+    margin: 5px;
+    width: 150px;
+  }
+`;
